@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
-
+const Controller = require('../controllers/answer-controller.js')
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/', Controller.getAnswer )
+router.get('/:id', Controller.getOneAnswer )
+router.post('/', Controller.postAnswer )
 
 module.exports = router;

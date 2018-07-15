@@ -1,10 +1,15 @@
-const Model = require('../models/article-model.js')
+const Article = require('../models/article-model.js')
 const moment = require('moment')
 
 class Controller {
     static getArticles(req,res){
-        Model.find()
-        .then(articles=> {
+        Article.find()
+        .populate('user')
+        .populate('answers')
+        .populate('comment')
+        .populate('upvote')
+        .populate('downvote')
+        .exec((err, articles)=> {
             res.status(200).json({
                 message: 'get articles',
                 articles
@@ -13,7 +18,12 @@ class Controller {
     }
     static getOneArticle(req,res){
         let query = req.params.id
-        Model.findById(query)
+        Article.findById(query)
+        .populate('user')
+        .populate('answers')
+        .populate('comment')
+        .populate('upvote')
+        .populate('downvote')
         .then(article=> {
             res.status(200).json({
                 message: 'get one article',
@@ -31,7 +41,7 @@ class Controller {
             upvote: [],
             downvote: []
         }
-        let newPost = new Model(obj)
+        let newPost = new Article(obj)
         newPost.save()
         .then(articles=> {
             res.status(200).json({
@@ -41,7 +51,7 @@ class Controller {
         })
     }
     static delete(req,res){
-        Model.findByIdAndRemove({
+        Article.findByIdAndRemove({
             _id: req.params.id
         })
         .then(()=>{

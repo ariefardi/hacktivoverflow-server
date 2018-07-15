@@ -5,9 +5,9 @@ let answerSchema = Schema({
     content: String,
     article: {type: Schema.Types.ObjectId, ref: 'article'},
     user: {type: Schema.Types.ObjectId, ref: 'user'},
-    comments: [{type: Schema.Types.ObjectId,ref: 'comment'}],
+    comments: [{type: Schema.Types.ObjectId, ref: 'comment'}],
     upvote: [{type: Schema.Types.ObjectId, ref: 'user'}],
-    downvote: [{type: Schema.Types.ObjectId, ref: 'comment'}]
+    downvote: [{type: Schema.Types.ObjectId, ref: 'user'}]
 },{timestamp: true})
 
 let answers = mongoose.model('answer', answerSchema)

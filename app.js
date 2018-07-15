@@ -8,6 +8,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const articlesRouter = require('./routes/articles.js')
 const answersRouter = require('./routes/answers.js')
+const commentsRouter = require('./routes/comments.js')
 
 const mongoose = require('mongoose')
 mongoose.connect('mongodb://arief:08november@ds229621.mlab.com:29621/hacktivoverflow')
@@ -27,6 +28,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/articles', articlesRouter)
 app.use('/answers', answersRouter)
+app.use('/comments', commentsRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

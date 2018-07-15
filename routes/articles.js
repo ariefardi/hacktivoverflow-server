@@ -1,9 +1,12 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const Controller = require('../controllers/article-controller.js')
+
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/', Controller.getArticles)
+router.get('/:id', Controller.getOneArticle)
+router.post('/', Controller.postArticle)
+router.delete('/delete/:id', Controller.delete)
 
 module.exports = router;
