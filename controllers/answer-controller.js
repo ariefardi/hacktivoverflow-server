@@ -64,6 +64,37 @@ class Controller {
             })
         })
     }
+    static upvote (req,res) {
+        let query = req.params.id
+        let user = req.body.user
+        Answer.findById(query)
+        .then(answer=> {
+            answer.upvote.push(user)
+            Answer.findByIdAndUpdate(query,answer)
+            .then(answerUpdated=> {
+                res.json({
+                    message: 'Berhasil upvote',
+                    answerUpdated
+                })
+            })
+        })
+    }
+
+    static downvote (req,res) {
+        let query = req.params.id
+        let user = req.body.user
+        Answer.findById(query)
+        .then(answer=> {
+            answer.downvote.push(user)
+            Answer.findByIdAndUpdate(query,article)
+            .then(answerUpdated=> {
+                res.json({
+                    message: 'Berhasil downvote',
+                    answerUpdated
+                })
+            })
+        })
+    }
 }
 
 module.exports = Controller
