@@ -7,6 +7,8 @@ const Controller = require('../controllers/article-controller.js')
 router.get('/', Controller.getArticles)
 router.get('/:id', Controller.getOneArticle)
 router.post('/', Controller.postArticle)
+router.post('/upvote/:id', Controller.upvote)
+router.post('/downvote/:id', Controller.downvote)
 router.delete('/delete/:id', Controller.delete)
 
 module.exports = router;

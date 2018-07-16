@@ -2,6 +2,7 @@ const Article = require('../models/article-model.js')
 const moment = require('moment')
 
 class Controller {
+    
     static getArticles(req,res){
         Article.find()
         .populate('user')
@@ -16,6 +17,7 @@ class Controller {
             })
         })
     }
+
     static getOneArticle(req,res){
         let query = req.params.id
         Article.findById(query)
@@ -57,6 +59,38 @@ class Controller {
         .then(()=>{
             res.status(200).json({
                 message: 'Waduh kedelete patrick'
+            })
+        })
+    }
+
+    static upvote (req,res) {
+        let query = req.params.id
+        let user = req.body.user
+        Article.findById(query)
+        .then(article=> {
+            article.upvote.push(user)
+            Article.findByIdAndUpdate(query,article)
+            .then(articleUpdated=> {
+                res.json({
+                    message: 'Berhasil upvote',
+                    articleUpdated
+                })
+            })
+        })
+    }
+
+    static downvote (req,res) {
+        let query = req.params.id
+        let user = req.body.user
+        Article.findById(query)
+        .then(article=> {
+            article.downvote.push(user)
+            Article.findByIdAndUpdate(query,article)
+            .then(articleUpdated=> {
+                res.json({
+                    message: 'Berhasil downvote',
+                    articleUpdated
+                })
             })
         })
     }
