@@ -34,10 +34,11 @@ class Controller {
         })
     }
     static postArticle(req,res){
+        let decoded = jwt.verify(req.headers.token, 'superfox')
         let obj = {
             title: req.body.title,
             content: req.body.content,
-            user: req.body.user,
+            user: decoded.userId,
             comments: [],
             answers: [],
             upvote: [],

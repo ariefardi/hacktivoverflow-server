@@ -40,6 +40,9 @@ class Controller {
                 })
             }
         })
+        .catch(err=> {
+            console.log(err.message)
+        })
     }
     static login(req,res){
         console.log(req.body)
@@ -58,20 +61,20 @@ class Controller {
                     })
                 }
                 else {
-                    res.status(500).json({
+                    res.status(400).json({
                         message: `username/password salah`
                     })
                 }
             }
             else {
-                req.status(500).json({
+                req.status(400).json({
                     message: `username/password salah`
                 })
             }
         })
         .catch(err =>{
             console.log(err)
-            res.status(500).json({
+            res.status(400).json({
                 message: 'duh  error patrick'
             })
             console.log(err)
