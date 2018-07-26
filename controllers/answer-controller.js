@@ -1,6 +1,7 @@
 const Answer = require('../models/answer-model.js')
 const Article = require('../models/article-model.js')
 const moment = require('moment')
+const jwt = require('jsonwebtoken')
 
 class Controller {
     static getAnswer(req,res){
@@ -36,10 +37,12 @@ class Controller {
         })
     }
     static postAnswer(req,res){
+        let decoded = jwt.verify(req.headers.token, 'superfox')
         let obj = {
             content: req.body.content,
             article: req.body.article,
-            user: req.body.user,
+            user: decoded.userId,
+            date: moment().format('LL'),
             comments: [],
             upvote: [],
             downvote: []
