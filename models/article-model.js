@@ -4,6 +4,8 @@ const Schema = mongoose.Schema
 let articleSchema = Schema({
     title: String, 
     content: String,
+    tags: [],
+    date: String,
     user: {type: Schema.Types.ObjectId, ref: 'user'},
     comments : [{type: Schema.Types.ObjectId, ref: 'comment'}],
     answers : [{type: Schema.Types.ObjectId, ref: 'answer'}],

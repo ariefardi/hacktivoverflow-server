@@ -1,5 +1,7 @@
 const Article = require('../models/article-model.js')
 const moment = require('moment')
+const jwt = require('jsonwebtoken')
+// console.log(' masuk controller', jwt)
 
 class Controller {
     
@@ -39,11 +41,14 @@ class Controller {
             title: req.body.title,
             content: req.body.content,
             user: decoded.userId,
+            tags: req.body.tags,
+            date: moment().format('LL') ,
             comments: [],
             answers: [],
             upvote: [],
             downvote: []
         }
+        console.log(' ini ada di paling atas')
         let newPost = new Article(obj)
         newPost.save()
         .then(articles=> {
@@ -51,6 +56,13 @@ class Controller {
                 message: 'berhasil posting article',
                 articles
             })
+            console.log('ini ada di save data')
+        })
+        .catch(err=> {
+            res.json({
+                message: err.message
+            })
+            console.log('ini ada di error data')
         })
     }
     static delete(req,res){
