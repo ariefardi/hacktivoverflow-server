@@ -18,7 +18,24 @@ class Controller {
             })
         })
     }
-
+    static getByUser(req, res) {
+        let query = req.params.id
+        Article.find({
+            user: req.params.id
+        })
+        .populate('user')
+        .then(articles=> {
+            res.json({
+                message: 'get all data by user',
+                articles
+            })
+        })
+        .catch(err=> {
+            res.json({
+                message: err
+            })
+        })
+    }
     static getOneArticle(req,res){
         let query = req.params.id
         Article.findById(query)

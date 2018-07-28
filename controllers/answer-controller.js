@@ -36,6 +36,8 @@ class Controller {
             })
         })
     }
+
+
     static postAnswer(req,res){
         let decoded = jwt.verify(req.headers.token, 'superfox')
         let obj = {
