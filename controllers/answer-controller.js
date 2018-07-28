@@ -69,32 +69,114 @@ class Controller {
     }
     static upvote (req,res) {
         let query = req.params.id
-        let user = req.body.user
+        let decoded = jwt.verify(req.headers.token, 'superfox')
+
         Answer.findById(query)
         .then(answer=> {
-            answer.upvote.push(user)
-            Answer.findByIdAndUpdate(query,answer)
-            .then(answerUpdated=> {
+            // res.json(answer)
+            if (decoded.userId==answer.user._id) {
                 res.json({
-                    message: 'Berhasil upvote',
-                    answerUpdated
+                    message: 'You cant upvote your answer'
                 })
+            }
+            else {
+                let found = answer.upvote.find(function(element){
+                    console.log(element)
+                    if (element==decoded.userId) {
+                        return 'ada nih'
+                    }
+                    else {
+                        return undefined
+                    }      
+                })
+                console.log(found, ' ini found')
+                console.log(decoded.userId)
+                    
+                    if (found) {
+                        res.json({
+                            message: 'anda sudah vote',
+                            id: decoded.userId,
+                        })
+                        console.log('ada yang sama')
+                    }
+                    else {
+                        console.log('beda')
+                        answer.upvote.push(decoded.userId)
+                            Answer.findByIdAndUpdate(query,answer)
+                            .then(answerUpdated=> {
+                                res.json({
+                                    message: 'Berhasil upvote',
+                                    answerUpdated
+                                })
+                            })
+                            .catch(err=> {
+                                res.json({
+                                    message: err.message
+                                })
+                            })
+                    }
+                }
+        })
+        .catch(err=> {
+            res.json({
+                message: err.message
             })
         })
     }
 
     static downvote (req,res) {
         let query = req.params.id
-        let user = req.body.user
+        let decoded = jwt.verify(req.headers.token, 'superfox')
+
         Answer.findById(query)
         .then(answer=> {
-            answer.downvote.push(user)
-            Answer.findByIdAndUpdate(query,article)
-            .then(answerUpdated=> {
+            // res.json(answer)
+            if (decoded.userId==answer.user._id) {
                 res.json({
-                    message: 'Berhasil downvote',
-                    answerUpdated
+                    message: 'You cant downvote your answer'
                 })
+            }
+            else {
+                let found = answer.downvote.find(function(element){
+                    console.log(element)
+                    if (element==decoded.userId) {
+                        return 'ada nih'
+                    }
+                    else {
+                        return undefined
+                    }      
+                })
+                console.log(found, ' ini found')
+                console.log(decoded.userId)
+                    
+                    if (found) {
+                        res.json({
+                            message: 'anda sudah vote',
+                            id: decoded.userId,
+                        })
+                        console.log('ada yang sama')
+                    }
+                    else {
+                        console.log('beda')
+                        answer.downvote.push(decoded.userId)
+                            Answer.findByIdAndUpdate(query,answer)
+                            .then(answerUpdated=> {
+                                res.json({
+                                    message: 'Berhasil dowvote',
+                                    answerUpdated
+                                })
+                            })
+                            .catch(err=> {
+                                res.json({
+                                    message: err.message
+                                })
+                            })
+                    }
+                }
+        })
+        .catch(err=> {
+            res.json({
+                message: err.message
             })
         })
     }

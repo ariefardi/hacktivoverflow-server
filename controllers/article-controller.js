@@ -1,7 +1,6 @@
 const Article = require('../models/article-model.js')
 const moment = require('moment')
 const jwt = require('jsonwebtoken')
-// console.log(' masuk controller', jwt)
 
 class Controller {
     
@@ -78,34 +77,113 @@ class Controller {
 
     static upvote (req,res) {
         let query = req.params.id
-        let user = req.body.user
+        let decoded = jwt.verify(req.headers.token, 'superfox')
         Article.findById(query)
         .then(article=> {
-            article.upvote.push(user)
-            Article.findByIdAndUpdate(query,article)
-            .then(articleUpdated=> {
+            if (decoded.userId==article.user._id) {
                 res.json({
-                    message: 'Berhasil upvote',
-                    articleUpdated
+                    message: 'You cant upvote your question'
                 })
+            }
+            else {
+                let found = article.upvote.find(function(element){
+                    console.log(element)
+                    if (element==decoded.userId) {
+                        return 'ada nih'
+                    }
+                    else {
+                        return undefined
+                    }      
+                })
+                console.log(found, ' ini found')
+                console.log(decoded.userId)
+                    
+                    if (found) {
+                        res.json({
+                            message: 'anda sudah vote',
+                            id: decoded.userId,
+                        })
+                        console.log('ada yang sama')
+                    }
+                    else {
+                        console.log('beda')
+                        article.upvote.push(decoded.userId)
+                            Article.findByIdAndUpdate(query,article)
+                            .then(articleUpdated=> {
+                                res.json({
+                                    message: 'Berhasil upvote',
+                                    articleUpdated
+                                })
+                            })
+                            .catch(err=> {
+                                res.json({
+                                    message: err.message
+                                })
+                            })
+                    }
+                }
+        })
+        .catch(err=> {
+            res.json({
+                message: err.message
             })
         })
     }
 
     static downvote (req,res) {
         let query = req.params.id
-        let user = req.body.user
+        let decoded = jwt.verify(req.headers.token, 'superfox')
         Article.findById(query)
         .then(article=> {
-            article.downvote.push(user)
-            Article.findByIdAndUpdate(query,article)
-            .then(articleUpdated=> {
+            if (decoded.userId==article.user._id) {
                 res.json({
-                    message: 'Berhasil downvote',
-                    articleUpdated
+                    message: 'You cant downvote your question'
                 })
+            }
+            else {
+                let found = article.downvote.find(function(element){
+                    console.log(element)
+                    if (element==decoded.userId) {
+                        return 'ada nih'
+                    }
+                    else {
+                        return undefined
+                    }      
+                })
+                console.log(found, ' ini found')
+                console.log(decoded.userId)
+                    
+                    if (found) {
+                        res.json({
+                            message: 'anda sudah vote',
+                            id: decoded.userId,
+                        })
+                        console.log('ada yang sama')
+                    }
+                    else {
+                        console.log('beda')
+                        article.downvote.push(decoded.userId)
+                            Article.findByIdAndUpdate(query,article)
+                            .then(articleUpdated=> {
+                                res.json({
+                                    message: 'Berhasil downvote',
+                                    articleUpdated
+                                })
+                            })
+                            .catch(err=> {
+                                res.json({
+                                    message: err.message
+                                })
+                            })
+                    }
+                }
+        })
+        .catch(err=> {
+            res.json({
+                message: err.message
             })
         })
+        
     }
 }
 

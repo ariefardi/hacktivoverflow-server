@@ -1,7 +1,6 @@
 const Model = require('../models/user-model')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-console.log('masuk gak controller')
 class Controller {
     static getUsers(req,res){
         console.log('masuk gak ge user') 
