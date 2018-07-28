@@ -202,6 +202,30 @@ class Controller {
         })
         
     }
+
+    static updateQuestion (req, res) {
+        let decoded = jwt.verify(req.headers.token, 'superfox')
+        let query = req.params.id
+        let obj = {
+            title: req.body.title,
+            content: req.body.content,
+            user: decoded.userId
+        }
+        Article.findByIdAndUpdate({
+            _id:query
+        }, obj)
+        .then(() => {
+            res.json({
+                message: 'Berhasil Update'
+            })
+        })
+        .catch(err=> {
+            res.json({
+                message: err.message
+            })
+        })
+
+    }
 }
 
 module.exports = Controller

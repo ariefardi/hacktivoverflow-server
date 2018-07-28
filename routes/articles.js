@@ -10,6 +10,7 @@ router.get('/users/:id', Controller.getByUser)
 router.post('/', Controller.postArticle)
 router.post('/upvote/:id', Controller.upvote)
 router.post('/downvote/:id', Controller.downvote)
+router.put('/update/:id', Controller.updateQuestion)
 router.delete('/delete/:id', Controller.delete)
 
 module.exports = router;
